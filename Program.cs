@@ -11,17 +11,32 @@ namespace CountriesReflaction
         static void Main(string[] args)
         {
             Assembly assembly = Assembly.LoadFile(@"C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\Countries.dll");
-            
+            Type att = assembly.GetType("Countries.Attributes.TopSecretAttribute");
+            var methods = assembly.GetTypes()
+                      .SelectMany(t => t.GetMethods())
+                      .Where(m => m.GetCustomAttributes(att, false).Length > 0)
+                      .ToArray();
 
             var lsCountires = assembly.DefinedTypes.ToList().Where(d => d.ImplementedInterfaces.Any(i => i.Name == "ICountry")).ToList();
 
+            var rr = assembly.DefinedTypes.ToList().Where(d => d.Attributes.ToString().Contains("Private")).ToList();
+
+            
+
             foreach (var countyClass in lsCountires)
             {
+                foreach (var item in countyClass.DeclaredMethods)
+                {
+
+                    Console.WriteLine(item.Attributes);
+                    Console.WriteLine(item.GetCustomAttribute(att));
+                }
+                
+                //countyClass.GetDeclaredMethods().Where(e => e.Attributes.ToString().Contains("Private"));
                 
                 Type typeClass = assembly.GetType(countyClass.FullName);
 
-                //MethodInfo [] methodInfos = typeClass.GetMethods(BindingFlags.NonPublic);
-                //methodInfos.ToList().ForEach(m => Console.WriteLine(m.Attributes.ToString()));
+                
 
                 var instance = Activator.CreateInstance(typeClass);
                 
@@ -42,7 +57,31 @@ namespace CountriesReflaction
             }
 
 
-           
+            List<string> methosPrivate = new List<string>();
+            List<string> names = new List<string>();
+            foreach (var countyClass in lsCountires)
+            {
+                
+                foreach (var item in countyClass.DeclaredMethods)
+                {
+
+                    if (item.Attributes.ToString().Contains("Private"))
+                    {
+                        Console.WriteLine(item.GetCustomAttribute(att));
+                        methosPrivate.Add(item.Name);
+                        names.Add(countyClass.Name);
+                    }
+                    else {
+                        Console.WriteLine("no");
+                    }
+                }
+            }
+            methosPrivate.ForEach(m => Console.WriteLine(m));
+            names.ForEach(m => Console.WriteLine(m));
+
+
+
+
 
         }
     }
