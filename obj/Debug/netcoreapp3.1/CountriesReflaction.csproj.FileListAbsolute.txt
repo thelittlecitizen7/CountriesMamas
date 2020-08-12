@@ -1,0 +1,14 @@
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.exe
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\Countries.dll
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.deps.json
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.runtimeconfig.json
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.runtimeconfig.dev.json
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.dll
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\CountriesReflaction.pdb
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.csprojAssemblyReference.cache
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.AssemblyInfoInputs.cache
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.AssemblyInfo.cs
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.csproj.CoreCompileInputs.cache
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.dll
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.pdb
+C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\obj\Debug\netcoreapp3.1\CountriesReflaction.genruntimeconfig.cache
