@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -10,79 +11,90 @@ namespace CountriesReflaction
     {
         static void Main(string[] args)
         {
-            Assembly assembly = Assembly.LoadFile(@"C:\Users\thelittlecitizen7\source\repos\CountriesReflaction\CountriesReflaction\bin\Debug\netcoreapp3.1\Countries.dll");
-            Type att = assembly.GetType("Countries.Attributes.TopSecretAttribute");
-            var methods = assembly.GetTypes()
-                      .SelectMany(t => t.GetMethods())
-                      .Where(m => m.GetCustomAttributes(att, false).Length > 0)
-                      .ToArray();
-
-            var lsCountires = assembly.DefinedTypes.ToList().Where(d => d.ImplementedInterfaces.Any(i => i.Name == "ICountry")).ToList();
-
-            var rr = assembly.DefinedTypes.ToList().Where(d => d.Attributes.ToString().Contains("Private")).ToList();
-
+            string executableLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
             
+            Assembly assembly = Assembly.LoadFile(Path.Combine(executableLocation, "Countries.dll"));
+            
+            Console.WriteLine("------------------------------------------------------------");
+            // ex1
+            PrintAllCOuntriesDetails(assembly);
+            Console.WriteLine("------------------------------------------------------------");
+            // ex2.b
+            PrintAllPrivateMethosWithTopSecretAttributes(assembly);
+            Console.WriteLine("------------------------------------------------------------");
 
-            foreach (var countyClass in lsCountires)
+            // ex2.c
+            PrintMamasContinent(assembly);
+            Console.WriteLine("------------------------------------------------------------");
+
+
+
+        }
+
+
+        public static List<TypeInfo> GetAllCountries(Assembly assembly) {
+            return assembly.DefinedTypes.ToList().Where(d => d.ImplementedInterfaces.Any(i => i.Name == "ICountry")).ToList();
+        }
+
+
+        // ex 1
+        public static void PrintAllCOuntriesDetails(Assembly assembly) {
+            foreach (TypeInfo countyClass in GetAllCountries(assembly))
             {
-                foreach (var item in countyClass.DeclaredMethods)
-                {
-
-                    Console.WriteLine(item.Attributes);
-                    Console.WriteLine(item.GetCustomAttribute(att));
-                }
-                
-                //countyClass.GetDeclaredMethods().Where(e => e.Attributes.ToString().Contains("Private"));
-                
                 Type typeClass = assembly.GetType(countyClass.FullName);
 
-                
-
                 var instance = Activator.CreateInstance(typeClass);
-                
+
                 MethodInfo methodName = typeClass.GetMethod("get_Name");
                 MethodInfo methodPopulation = typeClass.GetMethod("get_Population");
                 MethodInfo methodSize = typeClass.GetMethod("CalculateSize");
 
                 string className = countyClass.Name;
-                var countyName = methodName.Invoke(instance,null);
+                var countyName = methodName.Invoke(instance, null);
                 var population = methodPopulation.Invoke(instance, null);
                 var size = methodSize.Invoke(instance, null);
 
-               
-
                 Console.WriteLine($"className : {className} , countyName : {countyName},  population : {population} , size : {size}");
-                
-                
+
             }
+        }
 
-
-            List<string> methosPrivate = new List<string>();
-            List<string> names = new List<string>();
-            foreach (var countyClass in lsCountires)
+        // ex 2.b
+        public static void PrintAllPrivateMethosWithTopSecretAttributes(Assembly assembly) {
+            foreach (TypeInfo countyClass in GetAllCountries(assembly))
             {
-                
-                foreach (var item in countyClass.DeclaredMethods)
+                foreach (var method in countyClass.DeclaredMethods)
                 {
 
-                    if (item.Attributes.ToString().Contains("Private"))
+                    if (method.IsPrivate)
                     {
-                        Console.WriteLine(item.GetCustomAttribute(att));
-                        methosPrivate.Add(item.Name);
-                        names.Add(countyClass.Name);
-                    }
-                    else {
-                        Console.WriteLine("no");
+
+                        var allMethodAttributes = method.GetCustomAttributes().Select(p => p).ToList();
+
+                        bool hasTopSecretAttribute = allMethodAttributes.Any(f => f.GetType().Name == "TopSecretAttribute");
+                        if (hasTopSecretAttribute)
+                        {
+                            Console.WriteLine($"county : {countyClass.Name} , method : {method.Name}");
+                        }
                     }
                 }
             }
-            methosPrivate.ForEach(m => Console.WriteLine(m));
-            names.ForEach(m => Console.WriteLine(m));
+        }
 
+        // ex 2.c
+        public static void PrintMamasContinent(Assembly assembly) {
+            foreach (TypeInfo countyClass in GetAllCountries(assembly))
+            {
 
+                if (countyClass.Name == "MamasEmpire")
+                {
+                    foreach (var item in countyClass.CustomAttributes)
+                    {
+                        item.ConstructorArguments.ToList().ForEach(t => Console.WriteLine(t.Value));
+                    }
+                }
 
-
-
+            }
         }
     }
 }
